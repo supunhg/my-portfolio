@@ -1,48 +1,47 @@
 "use client";
 
-import { Shield, Fingerprint, Cpu, Compass, Lock, Zap } from "lucide-react";
+import { Shield, Fingerprint, Compass, Lock, Zap, Terminal } from "lucide-react";
 import { audio } from "@/lib/audio";
 
 export function Philosophy() {
   const tenets = [
     {
-      icon: <Fingerprint className="text-[#ff5a1f]" size={20} />,
-      kicker: "PRINCIPLE 01",
-      title: "Identity Precedes Everything",
+      icon: <Fingerprint className="text-[#06b6d4]" size={20} />,
+      kicker: "// PRINCIPLE 01",
+      title: "Identity Precedes All Ingress",
       description:
-        "Once one system owns 'who is this person', dashboards, scoped vector DB API keys, access revocation, and offboarding collapse into simple OIDC group lookups. Zero fragmented passwords.",
+        "Once one system owns 'who is this person' via Authentik OIDC, reverse proxies, dashboards, and scoped Qdrant vector DB keys become simple group lookups. Compromise or revoke one account, and access cuts across 34 containers in 120 seconds.",
     },
     {
-      icon: <Shield className="text-[#2563eb]" size={20} />,
-      kicker: "PRINCIPLE 02",
-      title: "Attack to Defend",
+      icon: <Shield className="text-[#10b981]" size={20} />,
+      kicker: "// PRINCIPLE 02",
+      title: "Attack to Fortify",
       description:
-        "As an Ethical Hacking & Network Security engineer, I treat every system I build as the target first. Penetration testing your own architecture reveals the blind spots before attackers do.",
+        "As an Ethical Hacking & Network Security undergraduate, I treat my own servers as the adversary target. Auditing Docker iptables bypasses, mutual TLS, and API key scoping myself is the only way to prove a system can withstand hostile environments.",
     },
     {
-      icon: <Compass className="text-[#141619]" size={20} />,
-      kicker: "PRINCIPLE 03",
-      title: "Tactile Physicality & Polish",
+      icon: <Compass className="text-[#f59e0b]" size={20} />,
+      kicker: "// PRINCIPLE 03",
+      title: "Physical Precision & Zero Bloat",
       description:
-        "High-assurance security doesn't have to look sterile or dull. Great engineering deserves physical delight—procedural sound, crisp typography, and 3D precision inspired by Dieter Rams and Teenage Engineering.",
+        "Heavy defense engineering does not mean clunky, sluggish software. Every tool is compiled natively (Go & Rust), and every 3D model is mathematically baked in Blender down to 35 KB for instant 60 FPS execution.",
     },
   ];
 
   return (
-    <section className="border-b border-[#e5e1d8] bg-white py-16 sm:py-24">
+    <section className="border-b border-[#232936] bg-[#08090c] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#e5e1d8]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#232936]">
           <div className="max-w-xl">
-            <span className="font-mono text-xs font-bold text-[#ff5a1f] tracking-widest uppercase">
-              // ENGINEERING ETHOS
+            <span className="font-mono text-xs font-bold text-[#06b6d4] tracking-widest uppercase">
+              // ENGINEERING CORE DIRECTIVES
             </span>
-            <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#141619]">
+            <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#f3f4f6]">
               How I architect systems meant to endure.
             </h2>
           </div>
-          <p className="max-w-md text-sm text-[#52565e] leading-relaxed">
-            From bare-metal ESXi hypervisors to Go-native forensics and WebGL 3D,
-            the benchmark is the same: absolute security under the hood, and pure craftsmanship on the surface.
+          <p className="max-w-md text-sm text-[#9ca3af] leading-relaxed font-mono">
+            From ESXi hypervisors to Go forensics and WebGL shaders: absolute defense-in-depth under the hood, and surgical precision on the surface.
           </p>
         </div>
 
@@ -51,18 +50,18 @@ export function Philosophy() {
             <div
               key={idx}
               onMouseEnter={() => audio.dialTick()}
-              className="group relative rounded-lg border border-[#e5e1d8] bg-[#f8f7f4] p-8 transition-all duration-200 hover:-translate-y-1 hover:border-[#141619] hover:shadow-md"
+              className="cyber-panel relative rounded-xl p-8 transition-all hover:-translate-y-1"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-[#e5e1d8] bg-white shadow-xs">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-[#232936] bg-[#141822]">
                 {tenet.icon}
               </div>
-              <span className="mt-6 block font-mono text-[11px] font-bold text-[#646872] tracking-wider">
+              <span className="mt-6 block font-mono text-[11px] font-bold text-[#9ca3af] tracking-wider">
                 {tenet.kicker}
               </span>
-              <h3 className="mt-2 text-lg font-bold text-[#141619] tracking-tight">
+              <h3 className="mt-2 text-lg font-bold text-[#f3f4f6] tracking-tight">
                 {tenet.title}
               </h3>
-              <p className="mt-3 text-sm text-[#52565e] leading-relaxed">
+              <p className="mt-3 text-sm text-[#9ca3af] leading-relaxed">
                 {tenet.description}
               </p>
             </div>

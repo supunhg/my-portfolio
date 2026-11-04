@@ -4,22 +4,26 @@
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  --color-paper: #f8f7f4;
-  --color-paper-subtle: #f0ede6;
-  --color-paper-card: #ffffff;
-  --color-ink: #141619;
-  --color-ink-muted: #646872;
-  --color-ink-faint: #989da8;
-  --color-border-subtle: #e5e1d8;
-  --color-border-strong: #141619;
-  --color-signal: #ff5a1f;
-  --color-electric: #2563eb;
-  --color-emerald-dot: #10b981;
+  --color-cyber-bg: #08090c;
+  --color-cyber-surface: #0e1117;
+  --color-cyber-card: #141822;
+  --color-cyber-card-hover: #191f2c;
+  --color-cyber-border: #232936;
+  --color-cyber-border-bright: #374151;
+
+  --color-ink-primary: #f3f4f6;
+  --color-ink-muted: #9ca3af;
+  --color-ink-faint: #4b5563;
+
+  --color-cyber-cyan: #06b6d4;
+  --color-cyber-emerald: #10b981;
+  --color-cyber-orange: #ff5a1f;
+  --color-cyber-blue: #3b82f6;
 }
 
 html {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
+  background-color: var(--color-cyber-bg);
+  color: var(--color-ink-primary);
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
@@ -28,45 +32,65 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background-color: var(--color-paper);
+  background-color: var(--color-cyber-bg);
+  color: var(--color-ink-primary);
   overflow-x: hidden;
 }
 
-/* Subtle architectural dot grid background */
-.bg-grid-dots {
-  background-image: radial-gradient(#dcd7cd 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Subtle tactical cyber grid */
+.bg-grid-cyber {
+  background-image: radial-gradient(rgba(38, 48, 68, 0.45) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-/* Custom crisp hardware badge */
-.badge-hardware {
-  border: 1px solid var(--color-border-subtle);
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+/* Glowing cyber borders */
+.cyber-panel {
+  border: 1px solid var(--color-cyber-border);
+  background: rgba(14, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cyber-panel:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 0 24px -6px rgba(6, 182, 212, 0.18);
 }
 
-/* Custom tactile button */
-.btn-tactile {
+/* Glowing text */
+.glow-cyan {
+  text-shadow: 0 0 16px rgba(6, 182, 212, 0.6);
+}
+.glow-emerald {
+  text-shadow: 0 0 16px rgba(16, 185, 129, 0.6);
+}
+
+/* Tactile button */
+.btn-cyber-primary {
+  background: #06b6d4;
+  color: #08090c;
+  font-weight: 700;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 0 var(--color-ink);
+  box-shadow: 0 0 14px -2px rgba(6, 182, 212, 0.5);
 }
-.btn-tactile:active {
-  transform: translateY(2px);
-  box-shadow: 0 0 0 var(--color-ink);
+.btn-cyber-primary:hover {
+  background: #22d3ee;
+  box-shadow: 0 0 22px rgba(6, 182, 212, 0.8);
+  transform: translateY(-1px);
+}
+.btn-cyber-primary:active {
+  transform: translateY(1px);
 }
 
-/* Custom scrollbar */
+/* Custom dark scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-paper);
+  background: #08090c;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d4cfc4;
+  background: #1e2430;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #b5afa3;
+  background: #06b6d4;
 }

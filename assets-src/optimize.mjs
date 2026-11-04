@@ -1,5 +1,4 @@
-// Web-optimise the Blender export: weld, quantise, meshopt-compress, WebP textures.
-// Keeps named nodes as interactive targets in Three.js.
+// Web-optimise Blender exports: weld, quantise, meshopt-compress
 import { execSync } from "node:child_process";
 import { copyFileSync, statSync, existsSync } from "node:fs";
 
@@ -10,22 +9,21 @@ const flags = [
   "--texture-compress webp",
   "--texture-size 1024",
   "--weld true",
-  "--simplify false", // preserve vertex colours with baked AO
-  "--join false",     // preserve separate components for explosion and interaction
+  "--simplify false",
+  "--join false",
   "--flatten false",
   "--palette false",
   "--instance false",
 ].join(" ");
 
-const src = "out/unit01.raw.glb";
-const out = "../public/models/unit01.glb";
-
-if (!existsSync("out")) {
-  console.error("Run blender script first: python build_machine.py");
-  process.exit(1);
+function optimize(src, outFinal) {
+  if (!existsSync(src)) return;
+  const outTemp = src.replace(".raw.glb", ".opt.glb");
+  console.log(`Optimizing ${src}...`);
+  execSync(`${gt} optimize ${src} ${outTemp} ${flags}`, { stdio: "inherit" });
+  copyFileSync(outTemp, outFinal);
+  console.log(`Finished: ${src} (${kb(src)}) -> ${outFinal} (${kb(outFinal)})`);
 }
 
-console.log(`Optimizing ${src}...`);
-execSync(`${gt} optimize ${src} out/unit01.glb ${flags}`, { stdio: "inherit" });
-copyFileSync("out/unit01.glb", out);
-console.log(`Finished: ${src} (${kb(src)}) -> ${out} (${kb(out)})`);
+optimize("out/avatar.raw.glb", "../public/models/avatar.glb");
+optimize("out/unit01.raw.glb", "../public/models/unit01.glb");

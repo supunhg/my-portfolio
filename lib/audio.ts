@@ -59,6 +59,16 @@ class SoundEngine {
     osc.stop(now + 0.035);
   }
 
+  /** Subtle tick sound for hover */
+  public tick() {
+    this.dialTick();
+  }
+
+  /** Confirmation chime for selection */
+  public select() {
+    this.chime();
+  }
+
   /** Rotary dial tick when rotating knobs */
   public dialTick() {
     if (!this.enabled) return;

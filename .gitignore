@@ -36,3 +36,5 @@ next-env.d.ts
 # blender build cache
 assets-src/out/
 assets-src/.cache/
+__pycache__/
+*.pyc

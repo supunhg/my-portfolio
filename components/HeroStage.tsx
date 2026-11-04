@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Layers, RotateCcw, Sparkles, Sliders, Info, Cpu, HardDrive, Radio } from "lucide-react";
-import { Stage } from "@/lib/stage/stage";
-import type { PartHit } from "@/lib/stage/model";
+import { RotateCcw, Sparkles, Server, Terminal, Gamepad2, Radio, Compass, ArrowUpRight } from "lucide-react";
+import { DioramaStage, type CameraPreset } from "@/lib/stage/dioramaStage";
+import type { DioramaHit } from "@/lib/stage/dioramaModel";
 import { audio } from "@/lib/audio";
 
 export function HeroStage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const stageRef = useRef<Stage | null>(null);
+  const stageRef = useRef<DioramaStage | null>(null);
 
   const [loading, setLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
-  const [isExploded, setIsExploded] = useState(false);
-  const [hoveredPart, setHoveredPart] = useState<PartHit>(null);
+  const [activePreset, setActivePreset] = useState<CameraPreset>("overview");
+  const [hoveredHit, setHoveredHit] = useState<DioramaHit>(null);
   const [activeNote, setActiveNote] = useState<string>(
-    "Unit-01: Drag to orbit. Click keys, dials, or cartridges to interact."
+    "Drag to orbit outpost · Scroll to zoom · Click street signs or props to navigate"
   );
 
   useEffect(() => {
@@ -24,35 +24,22 @@ export function HeroStage() {
     const init = async () => {
       if (!canvasRef.current) return;
       try {
-        const stage = await Stage.create(canvasRef.current, {
+        const stage = await DioramaStage.create(canvasRef.current, {
           onProgress: (p) => {
             if (alive) setLoadProgress(Math.round(p * 100));
           },
-          onHoverPart: (hit) => {
+          onHoverHit: (hit) => {
             if (!alive) return;
-            setHoveredPart(hit);
+            setHoveredHit(hit);
             if (hit) {
-              if (hit.type === "key") setActiveNote(`Tactile Key 0${hit.index + 1} clicked`);
-              else if (hit.type === "knob_main") setActiveNote("Machined rotary encoder (knurled aluminum)");
-              else if (hit.type === "knob_aux") setActiveNote("Auxiliary brass fine-trim dial");
-              else if (hit.type === "cartridge" && hit.id === "lab")
-                setActiveNote("Module 01: NIBM Campus Infrastructure (34 Containers, Authentik)");
-              else if (hit.type === "cartridge" && hit.id === "filo")
-                setActiveNote("Module 02: Filo (Go-Native Forensic Binary Analysis)");
-              else if (hit.type === "cartridge" && hit.id === "nemue")
-                setActiveNote("Module 03: Nemue (High-Speed Rust Network Recon)");
-              else if (hit.type === "screen") setActiveNote("OLED telemetry viewport");
-              else if (hit.type === "switch") setActiveNote("Master security bus rocker switch");
+              setActiveNote(hit.label);
+            } else {
+              setActiveNote("Drag to orbit outpost · Scroll to zoom · Click street signs or props to navigate");
             }
           },
-          onClickPart: (hit) => {
+          onClickHit: (hit) => {
             if (!alive || !hit) return;
-            if (hit.type === "cartridge") {
-              const element = document.getElementById(
-                hit.id === "lab" ? "infrastructure" : "forensics"
-              );
-              element?.scrollIntoView({ behavior: "smooth" });
-            }
+            setActiveNote(`Selected: ${hit.label}`);
           },
         });
 
@@ -64,7 +51,7 @@ export function HeroStage() {
         stageRef.current = stage;
         setLoading(false);
       } catch (err) {
-        console.error("Failed to load Unit-01 stage:", err);
+        console.error("Failed to load Diorama stage:", err);
       }
     };
 
@@ -76,17 +63,14 @@ export function HeroStage() {
     };
   }, []);
 
-  const toggleExplode = () => {
-    const next = !isExploded;
-    setIsExploded(next);
-    stageRef.current?.setExplode(next ? 1.0 : 0.0);
-    audio.switchSnap();
+  const handleSelectPreset = (preset: CameraPreset) => {
+    setActivePreset(preset);
+    stageRef.current?.setPreset(preset);
   };
 
   const handleReset = () => {
-    stageRef.current?.resetRotation();
-    stageRef.current?.setExplode(0.0);
-    setIsExploded(false);
+    setActivePreset("overview");
+    stageRef.current?.resetCamera();
     audio.click();
   };
 
@@ -99,68 +83,121 @@ export function HeroStage() {
         {/* Top Pitch */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#e5e1d8] bg-white/80 px-3 py-1 font-mono text-[11px] font-semibold text-[#646872] shadow-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a1f]" />
-            <span>UNIT-01 // PROCEDURAL 3D ARTIFACT · MODELED IN BLENDER 5.2</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#06b6d4] animate-pulse" />
+            <span>NODE-01 // CYBERSECURITY &amp; INFRASTRUCTURE DIORAMA · BLENDER 5.2</span>
           </div>
 
           <h1 className="mt-4 text-4xl sm:text-6xl font-black tracking-tight text-[#141619] leading-[1.08]">
             Heavy-duty infrastructure. <br />
-            <span className="text-[#ff5a1f]">Tactile digital craft.</span>
+            <span className="text-[#ff5a1f]">Obsessive 3D craft.</span>
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-[#52565e] leading-relaxed">
-            I engineer resilient campus-scale platforms, forensic binaries in Go & Rust,
-            and tactile 3D physical computing experiences—built with institutional security and obsessive finish.
+            I engineer resilient campus hypervisors, forensic engines in Go &amp; Rust,
+            and interactive 3D computing experiences—built with institutional rigor and physical polish.
           </p>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a
-              href="#infrastructure"
+              href="#lab"
               onClick={() => audio.click()}
               className="btn-tactile inline-flex items-center gap-2 rounded-sm bg-[#141619] px-5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-[#ff5a1f]"
             >
-              <Cpu size={14} />
-              <span>Explore NIBM Infrastructure</span>
+              <Server size={14} />
+              <span>Explore Campus Infrastructure</span>
             </a>
             <a
               href="#forensics"
               onClick={() => audio.click()}
               className="btn-tactile inline-flex items-center gap-2 rounded-sm border border-[#e5e1d8] bg-white px-5 py-2.5 text-xs font-semibold text-[#141619] transition-all hover:border-[#141619]"
             >
-              <HardDrive size={14} />
-              <span>Forensics & Tooling</span>
+              <Terminal size={14} />
+              <span>Forensic Tooling (Filo)</span>
+            </a>
+            <a
+              href="#creative"
+              onClick={() => audio.click()}
+              className="btn-tactile inline-flex items-center gap-2 rounded-sm border border-[#e5e1d8] bg-white px-5 py-2.5 text-xs font-semibold text-[#141619] transition-all hover:border-[#141619]"
+            >
+              <Compass size={14} />
+              <span>3D Digital Products (Supercub)</span>
             </a>
           </div>
         </div>
 
         {/* 3D Viewport Stage Box */}
-        <div className="relative mt-10 rounded-xl border border-[#e5e1d8] bg-white shadow-lg overflow-hidden">
+        <div className="relative mt-10 rounded-xl border border-[#e5e1d8] bg-white shadow-xl overflow-hidden">
           {/* Header Bar */}
-          <div className="flex h-11 items-center justify-between border-b border-[#e5e1d8] bg-[#f8f7f4] px-4">
+          <div className="flex flex-wrap items-center justify-between border-b border-[#e5e1d8] bg-[#f8f7f4] px-4 py-2 gap-2">
             <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#141619]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#06b6d4] shadow-[0_0_8px_#06b6d4]" />
               <span className="font-mono text-xs font-bold text-[#141619] tracking-wider uppercase">
-                SYSTEM UNIT-01 // INTERACTIVE DECK
+                CYBER OUTPOST // SEC-LAB 01 DIORAMA
               </span>
             </div>
 
-            {/* Controls */}
-            <div className="flex items-center gap-2">
+            {/* Camera Presets Selector (Bruno Simon / Level Style) */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="font-mono text-[10px] text-[#646872] uppercase mr-1 hidden sm:inline">Camera:</span>
               <button
-                onClick={toggleExplode}
-                className={`inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold transition-colors ${
-                  isExploded
-                    ? "bg-[#ff5a1f] text-white"
+                onClick={() => handleSelectPreset("overview")}
+                className={`inline-flex items-center gap-1 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold transition-all ${
+                  activePreset === "overview"
+                    ? "bg-[#141619] text-white shadow-xs"
                     : "border border-[#e5e1d8] bg-white text-[#141619] hover:border-[#141619]"
                 }`}
               >
-                <Layers size={12} />
-                <span>{isExploded ? "Assembled" : "Explode Parts"}</span>
+                <Compass size={12} />
+                <span>Overview 360°</span>
+              </button>
+              <button
+                onClick={() => handleSelectPreset("server")}
+                className={`inline-flex items-center gap-1 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold transition-all ${
+                  activePreset === "server"
+                    ? "bg-[#06b6d4] text-white shadow-xs"
+                    : "border border-[#e5e1d8] bg-white text-[#141619] hover:border-[#06b6d4]"
+                }`}
+              >
+                <Server size={12} />
+                <span>ESXi Rack</span>
+              </button>
+              <button
+                onClick={() => handleSelectPreset("workstation")}
+                className={`inline-flex items-center gap-1 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold transition-all ${
+                  activePreset === "workstation"
+                    ? "bg-[#10b981] text-white shadow-xs"
+                    : "border border-[#e5e1d8] bg-white text-[#141619] hover:border-[#10b981]"
+                }`}
+              >
+                <Terminal size={12} />
+                <span>Workstation</span>
+              </button>
+              <button
+                onClick={() => handleSelectPreset("arcade")}
+                className={`inline-flex items-center gap-1 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold transition-all ${
+                  activePreset === "arcade"
+                    ? "bg-[#ff5a1f] text-white shadow-xs"
+                    : "border border-[#e5e1d8] bg-white text-[#141619] hover:border-[#ff5a1f]"
+                }`}
+              >
+                <Gamepad2 size={12} />
+                <span>Filo Arcade</span>
+              </button>
+              <button
+                onClick={() => handleSelectPreset("telemetry")}
+                className={`inline-flex items-center gap-1 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold transition-all ${
+                  activePreset === "telemetry"
+                    ? "bg-[#8b5cf6] text-white shadow-xs"
+                    : "border border-[#e5e1d8] bg-white text-[#141619] hover:border-[#8b5cf6]"
+                }`}
+              >
+                <Radio size={12} />
+                <span>Telemetry Dish</span>
               </button>
 
               <button
                 onClick={handleReset}
-                title="Reset view"
+                title="Reset Camera View"
                 className="flex h-7 w-7 items-center justify-center rounded-sm border border-[#e5e1d8] bg-white text-[#141619] hover:border-[#141619]"
               >
                 <RotateCcw size={12} />
@@ -169,59 +206,64 @@ export function HeroStage() {
           </div>
 
           {/* Canvas Viewport */}
-          <div className="relative h-[480px] sm:h-[580px] w-full bg-[#ebe7df] cursor-grab active:cursor-grabbing">
+          <div className="relative h-[520px] sm:h-[640px] w-full bg-[#0c1017] cursor-grab active:cursor-grabbing select-none">
             {/* Loading Indicator */}
             {loading && (
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#ebe7df]/90 backdrop-blur-xs">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#141619]">
-                  <Sparkles size={14} className="animate-spin text-[#ff5a1f]" />
-                  <span>INITIALIZING UNIT-01 3D MESH ({loadProgress}%)</span>
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#0c1017]/95 backdrop-blur-xs">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold text-white">
+                  <Sparkles size={16} className="animate-spin text-[#06b6d4]" />
+                  <span>INITIALIZING CYBER OUTPOST DIORAMA ({loadProgress}%)</span>
                 </div>
-                <div className="mt-2 h-1 w-48 overflow-hidden rounded-full bg-[#d4cfc4]">
+                <div className="mt-3 h-1.5 w-56 overflow-hidden rounded-full bg-[#1e293b]">
                   <div
-                    className="h-full bg-[#ff5a1f] transition-all duration-300"
+                    className="h-full bg-gradient-to-r from-[#06b6d4] to-[#ff5a1f] transition-all duration-300"
                     style={{ width: `${loadProgress}%` }}
                   />
                 </div>
-                <span className="mt-2 text-[10px] font-mono text-[#646872]">
-                  Ray-traced AO · Vertex baked · Meshopt 60KB
+                <span className="mt-2 text-[10px] font-mono text-[#94a3b8]">
+                  Blender 5.2 LTS · Raytraced AO Vertex Baked · 329 KB Meshopt
                 </span>
               </div>
             )}
 
-            <canvas ref={canvasRef} className="h-full w-full" />
+            <canvas ref={canvasRef} className="h-full w-full block" />
 
             {/* Interactive Callout Chips on viewport */}
             <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-              <div className="pointer-events-auto rounded-sm border border-[#e5e1d8] bg-white/90 px-3 py-1.5 font-mono text-xs text-[#141619] shadow-xs backdrop-blur-md">
-                <span className="text-[#ff5a1f] font-bold">INFO: </span>
-                <span>{activeNote}</span>
+              <div className="pointer-events-auto max-w-full rounded-md border border-white/10 bg-[#0f172a]/90 px-3.5 py-2 font-mono text-xs text-white shadow-xl backdrop-blur-md">
+                <span className="text-[#06b6d4] font-bold mr-1">// OUTPOST TELEMETRY:</span>
+                <span className="text-gray-200">{activeNote}</span>
+                {hoveredHit?.targetId && (
+                  <a
+                    href={`#${hoveredHit.targetId}`}
+                    onClick={() => audio.select()}
+                    className="inline-flex items-center gap-1 ml-2 text-[10px] font-bold text-[#ff5a1f] underline hover:text-white"
+                  >
+                    <span>Jump to section</span>
+                    <ArrowUpRight size={10} />
+                  </a>
+                )}
               </div>
 
+              {/* Viewport Hotkeys / Quick Shortcuts */}
               <div className="flex items-center gap-1.5 pointer-events-auto">
                 <button
-                  onClick={() => {
-                    stageRef.current?.model.interactWith({ type: "key", index: 3 });
-                  }}
-                  className="rounded-sm border border-[#e5e1d8] bg-white px-2 py-1 font-mono text-[10px] text-[#141619] shadow-xs hover:border-[#ff5a1f]"
+                  onClick={() => handleSelectPreset("server")}
+                  className="rounded-sm border border-white/10 bg-[#1e293b]/80 px-2.5 py-1 font-mono text-[10px] text-cyan-400 shadow-xs hover:border-cyan-400 backdrop-blur-xs"
                 >
-                  Click Key
+                  Focus Server
                 </button>
                 <button
-                  onClick={() => {
-                    stageRef.current?.model.interactWith({ type: "knob_main" });
-                  }}
-                  className="rounded-sm border border-[#e5e1d8] bg-white px-2 py-1 font-mono text-[10px] text-[#141619] shadow-xs hover:border-[#ff5a1f]"
+                  onClick={() => handleSelectPreset("workstation")}
+                  className="rounded-sm border border-white/10 bg-[#1e293b]/80 px-2.5 py-1 font-mono text-[10px] text-emerald-400 shadow-xs hover:border-emerald-400 backdrop-blur-xs"
                 >
-                  Turn Dial
+                  Focus Terminal
                 </button>
                 <button
-                  onClick={() => {
-                    stageRef.current?.model.interactWith({ type: "cartridge", id: "lab" });
-                  }}
-                  className="rounded-sm border border-[#e5e1d8] bg-white px-2 py-1 font-mono text-[10px] text-[#141619] shadow-xs hover:border-[#ff5a1f]"
+                  onClick={() => handleSelectPreset("arcade")}
+                  className="rounded-sm border border-white/10 bg-[#1e293b]/80 px-2.5 py-1 font-mono text-[10px] text-orange-400 shadow-xs hover:border-orange-400 backdrop-blur-xs"
                 >
-                  Pop Cartridge
+                  Focus Arcade
                 </button>
               </div>
             </div>
@@ -230,20 +272,20 @@ export function HeroStage() {
           {/* Quick-Spec Bar */}
           <div className="grid grid-cols-2 divide-x divide-[#e5e1d8] border-t border-[#e5e1d8] bg-[#f8f7f4] sm:grid-cols-4">
             <div className="p-3 text-center">
-              <span className="block font-mono text-[10px] text-[#646872] uppercase">Asset Size</span>
-              <span className="font-mono text-xs font-bold text-[#141619]">59.4 KB (Meshopt)</span>
+              <span className="block font-mono text-[10px] text-[#646872] uppercase">Asset Budget</span>
+              <span className="font-mono text-xs font-bold text-[#141619]">329 KB (Meshopt Compressed)</span>
             </div>
             <div className="p-3 text-center">
-              <span className="block font-mono text-[10px] text-[#646872] uppercase">Renderer</span>
-              <span className="font-mono text-xs font-bold text-[#141619]">Blender 5.2 -&gt; WebGL</span>
+              <span className="block font-mono text-[10px] text-[#646872] uppercase">Geometry Pipeline</span>
+              <span className="font-mono text-xs font-bold text-[#141619]">78 Meshes · 36K Triangles</span>
             </div>
             <div className="p-3 text-center">
-              <span className="block font-mono text-[10px] text-[#646872] uppercase">Frame Budget</span>
-              <span className="font-mono text-xs font-bold text-[#10b981]">60 FPS Locked</span>
+              <span className="block font-mono text-[10px] text-[#646872] uppercase">Frame Rate</span>
+              <span className="font-mono text-xs font-bold text-[#10b981]">60 FPS · Hardware Accelerated</span>
             </div>
             <div className="p-3 text-center">
-              <span className="block font-mono text-[10px] text-[#646872] uppercase">Materials</span>
-              <span className="font-mono text-xs font-bold text-[#141619]">Raytraced AO Vertex</span>
+              <span className="block font-mono text-[10px] text-[#646872] uppercase">Shadows &amp; Shading</span>
+              <span className="font-mono text-xs font-bold text-[#141619]">Raytraced Vertex AO Baked</span>
             </div>
           </div>
         </div>

@@ -13,7 +13,6 @@ export function PillarCreative() {
       stack: "Next.js 16 · Three.js · Cannon-es · Web Audio",
       size: "138 KB GLB",
       liveUrl: "https://supercub-wren.vercel.app/",
-      githubUrl: "https://github.com/supunhg/supercub-wren",
     },
     {
       id: "mise",
@@ -23,7 +22,6 @@ export function PillarCreative() {
       stack: "Next.js 16 · Tailwind CSS 4 · Procedural GLTF",
       size: "129 KB GLB",
       liveUrl: "https://supercub-mise.vercel.app/",
-      githubUrl: "https://github.com/supunhg/supercub-mise",
     },
     {
       id: "tidehouse",
@@ -33,7 +31,6 @@ export function PillarCreative() {
       stack: "Next.js 16 · Time-Aware Sun Shaders · iCal Export",
       size: "45 KB GLB",
       liveUrl: "https://supercub-tidehouse.vercel.app/",
-      githubUrl: "https://github.com/supunhg/supercub-tidehouse",
     },
     {
       id: "tempo",
@@ -43,7 +40,6 @@ export function PillarCreative() {
       stack: "Next.js 16 · Motion · 3D Spot Picker",
       size: "69 KB GLB",
       liveUrl: "https://supercub-tempo.vercel.app/",
-      githubUrl: "https://github.com/supunhg/supercub-tempo",
     },
   ];
 
@@ -55,14 +51,14 @@ export function PillarCreative() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-sm border border-[#e5e1d8] bg-white px-2.5 py-1 font-mono text-[11px] font-bold text-[#ff5a1f]">
               <Sparkles size={12} />
-              <span>CREATIVE 3D & DIGITAL PRODUCTS // SUPERCUB</span>
+              <span>CREATIVE 3D &amp; DIGITAL PRODUCTS // SUPERCUB</span>
             </div>
             <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight text-[#141619]">
               Physical computing meets web craft.
             </h2>
           </div>
           <p className="max-w-md text-sm text-[#52565e] leading-relaxed">
-            I don’t just write backends—I design interactive 3D products with physics,
+            I don&apos;t just write backends—I design interactive 3D products with physics,
             procedural audio, and Blender Python pipelines that run at 60 FPS on mobile. Click any card to launch the live application.
           </p>
         </div>
@@ -107,29 +103,16 @@ export function PillarCreative() {
                   {tpl.stack}
                 </span>
 
-                <div className="flex items-center gap-3">
-                  <a
-                    href={tpl.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => audio.click()}
-                    className="inline-flex items-center gap-1 font-mono text-xs font-bold text-[#141619] hover:text-[#ff5a1f] transition-colors"
-                  >
-                    <span>Live Demo</span>
-                    <ArrowUpRight size={13} />
-                  </a>
-                  <span className="text-[#cfc7ba] font-mono">/</span>
-                  <a
-                    href={tpl.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => audio.click()}
-                    className="inline-flex items-center gap-1 font-mono text-xs font-semibold text-[#646872] hover:text-[#141619] transition-colors"
-                  >
-                    <span>Source</span>
-                    <ArrowUpRight size={13} />
-                  </a>
-                </div>
+                <a
+                  href={tpl.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => audio.click()}
+                  className="inline-flex items-center gap-1.5 rounded-sm bg-[#141619] px-3 py-1.5 font-mono text-xs font-bold text-white hover:bg-[#ff5a1f] transition-colors shadow-xs"
+                >
+                  <span>Launch Live Demo</span>
+                  <ArrowUpRight size={13} />
+                </a>
               </div>
             </div>
           ))}

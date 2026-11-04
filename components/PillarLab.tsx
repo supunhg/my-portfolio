@@ -1,9 +1,12 @@
 "use client";
 
-import { Server, ShieldCheck, Key, RefreshCw, Activity, Terminal, ExternalLink, Database, CheckCircle2, FileText, Download, Code2 } from "lucide-react";
+import { useState } from "react";
+import { Server, ShieldCheck, Key, Database, CheckCircle2, FileText, Download, Code2, ExternalLink, Activity, Eye, Presentation } from "lucide-react";
+import { SlideCarouselModal } from "./SlideCarouselModal";
 import { audio } from "@/lib/audio";
 
 export function PillarLab() {
+  const [isSlideModalOpen, setIsSlideModalOpen] = useState(false);
   const repoUrl = "https://github.com/supunhg/nibm-lab-infrastructure";
 
   const metrics = [
@@ -14,7 +17,13 @@ export function PillarLab() {
   ];
 
   return (
-    <section id="infrastructure" className="border-b border-[#e5e1d8] bg-[#f8f7f4] py-16 sm:py-24">
+    <section id="lab" className="border-b border-[#e5e1d8] bg-[#f8f7f4] py-16 sm:py-24">
+      {/* Slide Carousel Modal Dialog */}
+      <SlideCarouselModal
+        isOpen={isSlideModalOpen}
+        onClose={() => setIsSlideModalOpen(false)}
+      />
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-12 border-b border-[#e5e1d8]">
@@ -138,13 +147,27 @@ export function PillarLab() {
               </p>
             </div>
 
-            {/* Whitepaper & Slide Deck Download Bar */}
+            {/* Presentation Carousel Launcher Bar (No slide downloads) */}
             <div className="rounded-lg border border-[#e5e1d8] bg-[#ebe7df] p-4 flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#141619]">
                 <FileText size={16} className="text-[#ff5a1f]" />
-                <span>OFFICIAL CASE STUDY & ARCHITECTURE ARTIFACTS:</span>
+                <span>OFFICIAL ARCHITECTURE PRESENTATION &amp; CASE STUDY:</span>
               </div>
               <div className="flex items-center gap-2">
+                {/* Interactive Deck Viewer Button (Dialog Popup) */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSlideModalOpen(true);
+                    audio.click();
+                  }}
+                  className="btn-tactile inline-flex items-center gap-1.5 rounded bg-[#141619] px-3.5 py-1.5 font-mono text-xs font-bold text-white shadow-xs hover:bg-[#ff5a1f] transition-all"
+                >
+                  <Eye size={13} />
+                  <span>View Slides Deck (10 Slides)</span>
+                </button>
+
+                {/* Case Study Whitepaper Download */}
                 <a
                   href="/docs/NIBM-Lab-Case-Study_Supun-Hewagamage.pdf"
                   target="_blank"
@@ -154,16 +177,6 @@ export function PillarLab() {
                 >
                   <Download size={12} />
                   <span>Case Study (.PDF)</span>
-                </a>
-                <a
-                  href="/docs/NIBM-Lab-Carousel_Supun-Hewagamage.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => audio.click()}
-                  className="inline-flex items-center gap-1 rounded bg-white px-3 py-1.5 font-mono text-xs font-semibold text-[#141619] border border-[#d4cfc4] hover:border-[#141619] transition-all"
-                >
-                  <Download size={12} />
-                  <span>Slides (.PDF)</span>
                 </a>
               </div>
             </div>
@@ -185,9 +198,9 @@ export function PillarLab() {
               {/* Visual ASCII / Layer Diagram */}
               <div className="mt-5 space-y-3 font-mono text-xs">
                 <div className="rounded border border-white/15 bg-white/5 p-3">
-                  <div className="text-[#ff5a1f] font-bold text-[11px]">// LAYER 01: EDGE & INGRESS</div>
+                  <div className="text-[#ff5a1f] font-bold text-[11px]">// LAYER 01: EDGE &amp; INGRESS</div>
                   <div className="text-white/80 mt-1">Nginx Proxy Manager + Custom OpenResty Lua</div>
-                  <div className="text-white/40 text-[10px]">Dual-Lock Forward Auth · Let's Encrypt Wildcard</div>
+                  <div className="text-white/40 text-[10px]">Dual-Lock Forward Auth · Let&apos;s Encrypt Wildcard</div>
                 </div>
 
                 <div className="rounded border border-white/15 bg-white/5 p-3">
@@ -203,7 +216,7 @@ export function PillarLab() {
                 </div>
 
                 <div className="rounded border border-white/15 bg-white/5 p-3">
-                  <div className="text-white/90 font-bold text-[11px]">// LAYER 04: OBSERVABILITY & RECOVERY</div>
+                  <div className="text-white/90 font-bold text-[11px]">// LAYER 04: OBSERVABILITY &amp; RECOVERY</div>
                   <div className="text-white/80 mt-1">25 Uptime Kuma Probes · Beszel · ntfy Alerts</div>
                   <div className="text-white/40 text-[10px]">Nightly Encrypted Restic Snapshots</div>
                 </div>
@@ -222,7 +235,7 @@ export function PillarLab() {
               </a>
               <span className="text-[#10b981] flex items-center gap-1">
                 <CheckCircle2 size={12} />
-                <span>Audited & Documented</span>
+                <span>Audited &amp; Documented</span>
               </span>
             </div>
           </div>

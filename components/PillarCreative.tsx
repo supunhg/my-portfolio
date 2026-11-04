@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Music, Utensils, Waves, Dumbbell, Code2, ArrowUpRight, Box } from "lucide-react";
+import { Sparkles, Music, Utensils, Waves, Dumbbell, ArrowUpRight, ExternalLink } from "lucide-react";
 import { audio } from "@/lib/audio";
 
 export function PillarCreative() {
@@ -8,11 +8,12 @@ export function PillarCreative() {
     {
       id: "wren",
       name: "Wren // Playable 3D Synthesizer",
-      tagline: "A product page you can play: Web Audio synth, physics patch cables, exploded view.",
+      tagline: "A product page you can play: real Web Audio synth, physics patch cables, scroll exploded view.",
       icon: <Music size={18} className="text-[#ff5a1f]" />,
       stack: "Next.js 16 · Three.js · Cannon-es · Web Audio",
       size: "138 KB GLB",
-      link: "https://github.com/supunhg/supercub-wren",
+      liveUrl: "https://supercub-wren.vercel.app/",
+      githubUrl: "https://github.com/supunhg/supercub-wren",
     },
     {
       id: "mise",
@@ -21,7 +22,8 @@ export function PillarCreative() {
       icon: <Utensils size={18} className="text-[#10b981]" />,
       stack: "Next.js 16 · Tailwind CSS 4 · Procedural GLTF",
       size: "129 KB GLB",
-      link: "https://github.com/supunhg/supercub-mise",
+      liveUrl: "https://supercub-mise.vercel.app/",
+      githubUrl: "https://github.com/supunhg/supercub-mise",
     },
     {
       id: "tidehouse",
@@ -30,7 +32,8 @@ export function PillarCreative() {
       icon: <Waves size={18} className="text-[#2563eb]" />,
       stack: "Next.js 16 · Time-Aware Sun Shaders · iCal Export",
       size: "45 KB GLB",
-      link: "https://github.com/supunhg/supercub-tidehouse",
+      liveUrl: "https://supercub-tidehouse.vercel.app/",
+      githubUrl: "https://github.com/supunhg/supercub-tidehouse",
     },
     {
       id: "tempo",
@@ -39,7 +42,8 @@ export function PillarCreative() {
       icon: <Dumbbell size={18} className="text-[#f59e0b]" />,
       stack: "Next.js 16 · Motion · 3D Spot Picker",
       size: "69 KB GLB",
-      link: "https://github.com/supunhg/supercub-tempo",
+      liveUrl: "https://supercub-tempo.vercel.app/",
+      githubUrl: "https://github.com/supunhg/supercub-tempo",
     },
   ];
 
@@ -59,7 +63,7 @@ export function PillarCreative() {
           </div>
           <p className="max-w-md text-sm text-[#52565e] leading-relaxed">
             I don’t just write backends—I design interactive 3D products with physics,
-            procedural audio, and Blender Python pipelines that run at 60 FPS on mobile.
+            procedural audio, and Blender Python pipelines that run at 60 FPS on mobile. Click any card to launch the live application.
           </p>
         </div>
 
@@ -69,7 +73,7 @@ export function PillarCreative() {
             <div
               key={tpl.id}
               onMouseEnter={() => audio.dialTick()}
-              className="group rounded-xl border border-[#e5e1d8] bg-white p-7 shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-[#141619] hover:shadow-md flex flex-col justify-between"
+              className="group relative rounded-xl border border-[#e5e1d8] bg-white p-7 shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-[#141619] hover:shadow-md flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between">
@@ -81,22 +85,51 @@ export function PillarCreative() {
                   </span>
                 </div>
 
-                <h3 className="mt-5 text-xl font-bold text-[#141619] tracking-tight group-hover:text-[#ff5a1f] transition-colors">
-                  {tpl.name}
-                </h3>
-                <p className="mt-2 text-sm text-[#52565e] leading-relaxed">
-                  {tpl.tagline}
-                </p>
+                <a
+                  href={tpl.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => audio.click()}
+                  className="block mt-5"
+                >
+                  <h3 className="text-xl font-bold text-[#141619] tracking-tight group-hover:text-[#ff5a1f] transition-colors flex items-center gap-2">
+                    <span>{tpl.name}</span>
+                    <ExternalLink size={16} className="opacity-0 group-hover:opacity-100 transition-opacity text-[#ff5a1f]" />
+                  </h3>
+                  <p className="mt-2 text-sm text-[#52565e] leading-relaxed">
+                    {tpl.tagline}
+                  </p>
+                </a>
               </div>
 
               <div className="mt-6 pt-4 border-t border-[#e5e1d8] flex items-center justify-between">
                 <span className="font-mono text-[11px] text-[#646872]">
                   {tpl.stack}
                 </span>
-                <span className="inline-flex items-center gap-1 font-mono text-xs font-semibold text-[#141619] group-hover:translate-x-0.5 transition-transform">
-                  <span>Code</span>
-                  <ArrowUpRight size={13} />
-                </span>
+
+                <div className="flex items-center gap-3">
+                  <a
+                    href={tpl.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => audio.click()}
+                    className="inline-flex items-center gap-1 font-mono text-xs font-bold text-[#141619] hover:text-[#ff5a1f] transition-colors"
+                  >
+                    <span>Live Demo</span>
+                    <ArrowUpRight size={13} />
+                  </a>
+                  <span className="text-[#cfc7ba] font-mono">/</span>
+                  <a
+                    href={tpl.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => audio.click()}
+                    className="inline-flex items-center gap-1 font-mono text-xs font-semibold text-[#646872] hover:text-[#141619] transition-colors"
+                  >
+                    <span>Source</span>
+                    <ArrowUpRight size={13} />
+                  </a>
+                </div>
               </div>
             </div>
           ))}

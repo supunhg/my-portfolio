@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Terminal, Shield, Cpu, Binary, Search, Copy, Check, FileSearch, Radio } from "lucide-react";
+import { Terminal, Binary, Copy, Check, Shield, Search, ArrowUpRight } from "lucide-react";
 import { audio } from "@/lib/audio";
 
 export function PillarForensics() {
@@ -132,9 +132,16 @@ $ ./find . -exec /bin/sh -p \\; -quit
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] text-[#ff5a1f] bg-[#ff5a1f]/10 border border-[#ff5a1f]/30 px-2 py-0.5 rounded">
-                github.com/{current.github}
-              </span>
+              <a
+                href={`https://github.com/${current.github}`}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => audio.click()}
+                className="font-mono text-[10px] text-[#ff5a1f] bg-[#ff5a1f]/10 border border-[#ff5a1f]/30 px-2 py-0.5 rounded hover:bg-[#ff5a1f] hover:text-white transition-all flex items-center gap-1"
+              >
+                <span>github.com/{current.github}</span>
+                <ArrowUpRight size={11} />
+              </a>
               <button
                 onClick={handleCopy}
                 title="Copy command"

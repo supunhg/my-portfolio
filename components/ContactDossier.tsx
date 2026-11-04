@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Copy, Check, Sparkles, Send, KeyRound } from "lucide-react";
+import { Mail, Copy, Check, Sparkles, Send, KeyRound, Download, FileText } from "lucide-react";
 import confetti from "canvas-confetti";
 import { audio } from "@/lib/audio";
 
 export function ContactDossier() {
   const [copied, setCopied] = useState(false);
-  const email = "supunhewagamage@gmail.com";
+  const email = "sanchithahewagamage@gmail.com";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -124,13 +124,26 @@ export function ContactDossier() {
               <span>PGP ID: 4F92 B7A1 C3D8 9E02</span>
             </div>
 
-            <button
-              onClick={handleConfetti}
-              className="inline-flex items-center gap-1.5 rounded-sm border border-[#e5e1d8] bg-[#f8f7f4] px-3 py-1 font-mono text-xs font-semibold text-[#141619] transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f]"
-            >
-              <Sparkles size={13} />
-              <span>Trigger Collaboration Chime</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <a
+                href="/docs/NIBM-Lab-Case-Study_Supun-Hewagamage.pdf"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => audio.click()}
+                className="inline-flex items-center gap-1 rounded-sm border border-[#e5e1d8] bg-white px-3 py-1 font-mono text-xs font-semibold text-[#141619] hover:border-[#141619]"
+              >
+                <Download size={12} />
+                <span>Download Whitepaper</span>
+              </a>
+
+              <button
+                onClick={handleConfetti}
+                className="inline-flex items-center gap-1.5 rounded-sm border border-[#e5e1d8] bg-[#f8f7f4] px-3 py-1 font-mono text-xs font-semibold text-[#141619] transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f]"
+              >
+                <Sparkles size={13} />
+                <span>Celebrate</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

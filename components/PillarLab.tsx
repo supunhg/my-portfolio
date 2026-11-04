@@ -1,9 +1,11 @@
 "use client";
 
-import { Server, ShieldCheck, Key, RefreshCw, Activity, Terminal, ExternalLink, Database, CheckCircle2 } from "lucide-react";
+import { Server, ShieldCheck, Key, RefreshCw, Activity, Terminal, ExternalLink, Database, CheckCircle2, FileText, Download, Code2 } from "lucide-react";
 import { audio } from "@/lib/audio";
 
 export function PillarLab() {
+  const repoUrl = "https://github.com/supunhg/nibm-lab-infrastructure";
+
   const metrics = [
     { label: "Docker Containers", value: "34", detail: "Defined as Code & Tested" },
     { label: "Identity Layer", value: "Authentik", detail: "Index number single sign-on" },
@@ -25,10 +27,24 @@ export function PillarLab() {
               From an empty VM to a campus platform.
             </h2>
           </div>
-          <p className="max-w-md text-sm text-[#52565e] leading-relaxed">
-            As a Technical Assistant at NIBM, I initiated, architected, audited, and deployed
-            a self-hosted student lab on VMware ESXi—unifying 34 services under a single identity perimeter.
-          </p>
+          <div className="max-w-md">
+            <p className="text-sm text-[#52565e] leading-relaxed">
+              As a Technical Assistant at NIBM, I initiated, architected, audited, and deployed
+              a self-hosted student lab on VMware ESXi—unifying 34 services under a single identity perimeter.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <a
+                href={repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => audio.click()}
+                className="btn-tactile inline-flex items-center gap-1.5 rounded-sm bg-[#141619] px-3.5 py-2 font-mono text-xs font-bold text-white transition-all hover:bg-[#ff5a1f]"
+              >
+                <span>github.com/supunhg/nibm-lab-infrastructure</span>
+                <ExternalLink size={13} />
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Key Metrics Grid */}
@@ -121,6 +137,36 @@ export function PillarLab() {
                 nightly encrypted Restic backups to off-site storage.
               </p>
             </div>
+
+            {/* Whitepaper & Slide Deck Download Bar */}
+            <div className="rounded-lg border border-[#e5e1d8] bg-[#ebe7df] p-4 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#141619]">
+                <FileText size={16} className="text-[#ff5a1f]" />
+                <span>OFFICIAL CASE STUDY & ARCHITECTURE ARTIFACTS:</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/docs/NIBM-Lab-Case-Study_Supun-Hewagamage.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => audio.click()}
+                  className="inline-flex items-center gap-1 rounded bg-white px-3 py-1.5 font-mono text-xs font-semibold text-[#141619] border border-[#d4cfc4] hover:border-[#141619] transition-all"
+                >
+                  <Download size={12} />
+                  <span>Case Study (.PDF)</span>
+                </a>
+                <a
+                  href="/docs/NIBM-Lab-Carousel_Supun-Hewagamage.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => audio.click()}
+                  className="inline-flex items-center gap-1 rounded bg-white px-3 py-1.5 font-mono text-xs font-semibold text-[#141619] border border-[#d4cfc4] hover:border-[#141619] transition-all"
+                >
+                  <Download size={12} />
+                  <span>Slides (.PDF)</span>
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Architectural Schematic Card */}
@@ -165,7 +211,15 @@ export function PillarLab() {
             </div>
 
             <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-white/60">
-              <span>Status: In Production at NIBM</span>
+              <a
+                href={repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-white hover:text-[#ff5a1f] transition-colors flex items-center gap-1.5"
+              >
+                <Code2 size={13} />
+                <span>Inspect Repo on GitHub</span>
+              </a>
               <span className="text-[#10b981] flex items-center gap-1">
                 <CheckCircle2 size={12} />
                 <span>Audited & Documented</span>

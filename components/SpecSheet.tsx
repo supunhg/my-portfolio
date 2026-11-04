@@ -1,25 +1,47 @@
 "use client";
 
-import { Award, BookOpen, CheckCircle, Terminal, Layers, Cpu, ShieldCheck } from "lucide-react";
+import { Award, BookOpen, CheckCircle, Terminal, Layers, Cpu, ShieldAlert, Target } from "lucide-react";
 import { audio } from "@/lib/audio";
 
 export function SpecSheet() {
   const specs = [
     {
       category: "CORE RUNTIMES & SYSTEMS",
-      items: ["Linux (Ubuntu 24.04 LTS, Alpine, Debian)", "VMware ESXi Hypervisor", "Docker Engine & Compose Fleets", "ZeroTier Software-Defined Networks", "systemd Daemons & PKI Architecture"],
+      items: [
+        "Linux (Ubuntu 24.04 LTS, Alpine, Debian)",
+        "VMware ESXi Hypervisor",
+        "Docker Engine & Compose Fleets",
+        "ZeroTier Software-Defined Networks",
+        "systemd Daemons & PKI Architecture",
+      ],
     },
     {
       category: "SYSTEMS PROGRAMMING",
-      items: ["Go 1.23 (Filo Forensic Engine, CLI Architecture)", "Rust (Nemue High-Speed Network Recon)", "Python 3.12 (Blender bpy Procedural 3D, Automation)", "TypeScript / JavaScript (Next.js 16, Three.js)"],
+      items: [
+        "Go 1.23 (Filo Forensic Engine, CLI Architecture)",
+        "Rust (Nemue High-Speed Network Recon)",
+        "Python 3.12 (Blender bpy Procedural 3D, Automation)",
+        "TypeScript / JavaScript (Next.js 16, Three.js)",
+      ],
     },
     {
       category: "IDENTITY & ASSURANCE",
-      items: ["Authentik OIDC / LDAP Single Sign-On", "Forward Auth & Dual-Lock Reverse Proxies", "Scoped API Key Minting (Qdrant Vector DB)", "Mutual TLS (mTLS) & Encrypted Backups (Restic)"],
+      items: [
+        "Authentik OIDC / LDAP Single Sign-On",
+        "Forward Auth & Dual-Lock Reverse Proxies",
+        "Scoped API Key Minting (Qdrant Vector DB)",
+        "Mutual TLS (mTLS) & Encrypted Backups (Restic)",
+      ],
     },
     {
       category: "3D GRAPHICS & AUDIO",
-      items: ["Blender 5.2 Procedural Modeling (sclib)", "Three.js WebGL Interactive Scenes", "Ray-traced Vertex Ambient Occlusion Baking", "Web Audio API Procedural Synthesizers", "Meshopt & Draco Quantization Pipelines"],
+      items: [
+        "Blender 5.2 Procedural Modeling (sclib)",
+        "Three.js WebGL Interactive Scenes",
+        "Ray-traced Vertex Ambient Occlusion Baking",
+        "Web Audio API Procedural Synthesizers",
+        "Meshopt & Draco Quantization Pipelines",
+      ],
     },
   ];
 
@@ -94,20 +116,20 @@ export function SpecSheet() {
             onMouseEnter={() => audio.dialTick()}
             className="rounded-xl border border-[#e5e1d8] bg-[#f8f7f4] p-6 shadow-xs"
           >
-            <div className="flex items-center gap-2 text-[#141619]">
-              <ShieldCheck size={18} />
+            <div className="flex items-center gap-2 text-[#ff5a1f]">
+              <Target size={18} />
               <span className="font-mono text-xs font-bold uppercase tracking-wider">
-                OFFENSIVE CERTIFICATIONS
+                TARGET CREDENTIALS // IN PREPARATION
               </span>
             </div>
             <h3 className="mt-3 text-xl font-bold text-[#141619]">
-              Industry Credentials Focus
-            </h3>
-            <p className="mt-1 font-mono text-sm font-semibold text-[#141619]">
               OSCP · CEH · eJPT
+            </h3>
+            <p className="mt-1 font-mono text-sm font-semibold text-[#646872]">
+              Active Laboratory Training
             </p>
             <p className="mt-2 text-xs text-[#52565e] leading-relaxed">
-              Rigorous laboratory preparation in Active Directory exploitation, binary exploitation, network pivoting, and defensive fortification.
+              Rigorous hands-on training in dedicated offensive security labs (Active Directory exploitation, network pivoting, binary analysis, and defensive fortification).
             </p>
           </div>
         </div>
